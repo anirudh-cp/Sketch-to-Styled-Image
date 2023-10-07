@@ -2,6 +2,17 @@
 
 wikiart
 Dataset
+Dataset_small
+
+logs
+logs_broken
+logs_small
+training_checkpoints
+training_checkpoints_broken
+training_checkpoints_small
+
+comparison_pics
+*.keras
 
 # ---------------------------------------------------------
 
