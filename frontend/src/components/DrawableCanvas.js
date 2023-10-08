@@ -3,14 +3,14 @@ import React, { useRef, useLayoutEffect, useState, useEffect } from 'react'
 import CanvasDraw from "react-canvas-draw";
 import { MuiColorInput } from 'mui-color-input'
 
-import { Box, Button, Grid, FormControl, Select, MenuItem,  InputLabel } from '@mui/material';
+import { Box, Button, Grid, FormControl, Select, MenuItem, InputLabel } from '@mui/material';
 
 import ClearIcon from '@mui/icons-material/Clear';
 import UndoIcon from '@mui/icons-material/Undo';
 import BrushIcon from '@mui/icons-material/Brush';
 
 
-const DrawableCanvas = () => {
+const DrawableCanvas = ({ setInputImage, }) => {
     // Clear canvas, undo, brush size, color
 
     const saveableCanvas = useRef(null)
@@ -40,11 +40,16 @@ const DrawableCanvas = () => {
     return (
         <Grid container alignItems="center" justifyContent="center" >
             <Grid item xs={12} ref={canvasGridElement} display={'flex'} justifyContent={'center'} sx={{ m: 2 }}>
-                <CanvasDraw ref={canvasDraw => (saveableCanvas.current = canvasDraw)} 
-                canvasWidth={width} brushColor={brushColor} brushRadius={brushRadius} lazyRadius={0}/>
+                <CanvasDraw ref={canvasDraw => (saveableCanvas.current = canvasDraw)}
+                    canvasWidth={width} brushColor={brushColor} brushRadius={brushRadius} lazyRadius={0}
+
+                    onChange={
+                        () => { setInputImage(saveableCanvas.current.getDataURL()) }
+                    }
+                />
             </Grid>
 
-            <Grid item xs={12} sx={{ display: 'flex', mx: 2, my: 1, justifyContent: 'space-around', alignItems: 'center'}}>
+            <Grid item xs={12} sx={{ display: 'flex', mx: 2, my: 1, justifyContent: 'space-around', alignItems: 'center' }}>
 
                 <Button startIcon={<ClearIcon />} variant={'outlined'}
                     onClick={() => { saveableCanvas.current.eraseAll() }}>Clear</Button>
@@ -54,19 +59,19 @@ const DrawableCanvas = () => {
 
                 <FormControl sx={{ minWidth: 120, }} variant="standard">
 
-                    <InputLabel id="demo-simple-select-helper-label" startIcon={<BrushIcon />}>Brush Size</InputLabel>
+                    <InputLabel id="demo-simple-select-helper-label" >Brush Size</InputLabel>
                     <Select
                         value={brushRadius} onChange={(event) => { setBrushRadius(event.target.value); }}
                     >
                         {
                             [1, 2, 5, 7, 10, 15, 20,].map((item) => {
-                                return ( <MenuItem value={item}>{item}</MenuItem> )
+                                return (<MenuItem value={item} key={item}>{item}</MenuItem>)
                             })
                         }
                     </Select>
                 </FormControl>
 
-                <MuiColorInput helperText={'Brush Color'} value={brushColor} onChange={(color) => {setBrushColor(color)}} />
+                <MuiColorInput helperText={'Brush Color'} value={brushColor} onChange={(color) => { setBrushColor(color) }} />
 
             </Grid>
 

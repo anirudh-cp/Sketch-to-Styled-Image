@@ -22,7 +22,7 @@ const StyleSelect = ({ value, setValue }) => {
                     ['Vincent Van Gogh',].map((item) => {
 
                         return (
-                            <MenuItem value={item}>{item}</MenuItem>
+                            <MenuItem value={item} key={item}>{item}</MenuItem>
                         )
                     })
                 }

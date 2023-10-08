@@ -1,11 +1,16 @@
-import React from 'react'
-import { Grid } from '@mui/material'
+import React, { useState, } from 'react'
+import { Grid, Box, LinearProgress } from '@mui/material'
 
 import StyleSelect from '../components/StyleSelect'
 import DrawableCanvas from '../components/DrawableCanvas'
+import Output from '../components/Output'
 
 
 const Home = () => {
+
+
+  const [inputImage, setInputImage] = useState(null);
+
   return (
 
     <Grid container  >
@@ -13,10 +18,10 @@ const Home = () => {
         <StyleSelect />
       </Grid>
       <Grid item xs={12} md={6}>
-        <DrawableCanvas />
+        <DrawableCanvas setInputImage={setInputImage}/>
       </Grid>
       <Grid item xs={12} md={6}>
-        <h1>xs=8</h1>
+        <Output src={inputImage} />
       </Grid>
     </Grid>
   )
