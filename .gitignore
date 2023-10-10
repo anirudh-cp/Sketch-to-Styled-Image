@@ -13,6 +13,8 @@ training_checkpoints_small
 
 comparison_pics
 *.keras
+*.zip
+*.h5
 *.jpg
 
 # ---------------------------------------------------------

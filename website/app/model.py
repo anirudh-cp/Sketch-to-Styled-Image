@@ -13,7 +13,7 @@ def predict(image):
 
 
 def predict_anime(image):
-    model = load_model('./app/models/20231007-115307.keras')
+    model = load_model('./app/models/anime.h5')
 
     # Show the model architecture
     # print(model.summary())
