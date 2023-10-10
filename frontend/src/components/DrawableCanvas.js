@@ -10,7 +10,7 @@ import UndoIcon from '@mui/icons-material/Undo';
 import BrushIcon from '@mui/icons-material/Brush';
 
 
-const DrawableCanvas = ({ setInputImage, }) => {
+const DrawableCanvas = ({ setInputImage }) => {
     // Clear canvas, undo, brush size, color
 
     const saveableCanvas = useRef(null)
@@ -30,48 +30,59 @@ const DrawableCanvas = ({ setInputImage, }) => {
         }
 
         window.addEventListener('resize', handleWindowResize);
+        setInputImage(saveableCanvas.current.getDataURL("png", false, '#FFFFFF'));
 
         return () => {
             window.removeEventListener('resize', handleWindowResize);
         };
     }, []);
 
-
     return (
         <Grid container alignItems="center" justifyContent="center" >
             <Grid item xs={12} ref={canvasGridElement} display={'flex'} justifyContent={'center'} sx={{ m: 2 }}>
                 <CanvasDraw ref={canvasDraw => (saveableCanvas.current = canvasDraw)}
-                    canvasWidth={width} brushColor={brushColor} brushRadius={brushRadius} lazyRadius={0}
-
-                    onChange={
-                        () => { setInputImage(saveableCanvas.current.getDataURL()) }
-                    }
+                    brushColor={brushColor} brushRadius={brushRadius} lazyRadius={0}
+                    onChange={() => setInputImage(saveableCanvas.current.getDataURL("png", false, '#FFFFFF'))}
                 />
             </Grid>
 
             <Grid item xs={12} sx={{ display: 'flex', mx: 2, my: 1, justifyContent: 'space-around', alignItems: 'center' }}>
 
-                <Button startIcon={<ClearIcon />} variant={'outlined'}
-                    onClick={() => { saveableCanvas.current.eraseAll() }}>Clear</Button>
+                <Grid container alignItems="center" justifyContent="center" spacing={2}>
 
-                <Button startIcon={<UndoIcon />} variant={'outlined'}
-                    onClick={() => { saveableCanvas.current.undo() }}>Undo</Button>
+                    <Grid item xs={6} md={3}>
+                        <Button startIcon={<ClearIcon />} variant={'outlined'}
+                            onClick={() => { saveableCanvas.current.eraseAll() }}>Clear</Button>
+                    </Grid>
 
-                <FormControl sx={{ minWidth: 120, }} variant="standard">
 
-                    <InputLabel id="demo-simple-select-helper-label" >Brush Size</InputLabel>
-                    <Select
-                        value={brushRadius} onChange={(event) => { setBrushRadius(event.target.value); }}
-                    >
-                        {
-                            [1, 2, 5, 7, 10, 15, 20,].map((item) => {
-                                return (<MenuItem value={item} key={item}>{item}</MenuItem>)
-                            })
-                        }
-                    </Select>
-                </FormControl>
+                    <Grid item xs={6} md={3}>
+                        <Button startIcon={<UndoIcon />} variant={'outlined'}
+                            onClick={() => { saveableCanvas.current.undo() }}>Undo</Button>
+                    </Grid>
 
-                <MuiColorInput helperText={'Brush Color'} value={brushColor} onChange={(color) => { setBrushColor(color) }} />
+
+                    <Grid item xs={6} md={3}>
+                        <FormControl sx={{ minWidth: 120, }} variant="standard">
+
+                            <InputLabel id="demo-simple-select-helper-label" >Brush Size</InputLabel>
+                            <Select
+                                value={brushRadius} onChange={(event) => { setBrushRadius(event.target.value); }}
+                            >
+                                {
+                                    [1, 2, 5, 7, 10, 15, 20,].map((item) => {
+                                        return (<MenuItem value={item} key={item}>{item}</MenuItem>)
+                                    })
+                                }
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={6} md={3}>
+                        <MuiColorInput helperText={'Brush Color'} value={brushColor} onChange={(color) => { setBrushColor(color) }} />
+                    </Grid>
+
+                </Grid>
 
             </Grid>
 

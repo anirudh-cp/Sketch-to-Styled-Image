@@ -3,9 +3,8 @@ import React from 'react'
 
 const Output = ({ src }) => {
   return (
-    <Box sx={{ width: '100%'}}>
-        <img src={src}/>
-        <LinearProgress />
+    <Box sx={{ width: '100%', alignItems: "center", display: 'flex', height: '400px', justifyContent: 'center' }}>
+      <img src={src} />
     </Box>
   )
 }

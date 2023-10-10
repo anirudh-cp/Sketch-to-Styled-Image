@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+  website:
+    container_name: website
+    build:
+      context: ./website
+      dockerfile: Dockerfile
+    environment:
+      - FLASK_ENV=dev
+      - FLASK_APP=./website/app/main.py
+      - FLASK_RUN_HOST=0.0.0.0
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/website
