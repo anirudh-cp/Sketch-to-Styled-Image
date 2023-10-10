@@ -10,7 +10,7 @@ from PIL import Image
 import numpy as np
 
 
-from .model import predict
+from .model import predict, predict_anime
 
 
 app = Flask(__name__)
@@ -40,23 +40,28 @@ def classify():
         
         # Open, resize to shape required by model, remove alpha channel
         image = Image.open(BytesIO(input_image_data)).resize((256,256)).convert("RGB")
-
+        
         # Convert the PIL image to a NumPy array
         image_np = np.array(image)
+        
+        image_np = (image_np / 127.5) - 1
         
         # Data needs to be in batch size = 1
         input_image = np.expand_dims(image_np, axis=0)
         
-        prediction = predict(input_image)
-        prediction = prediction.numpy().astype(np.uint8)
+        if data["style"] == 0:
+            prediction = predict(input_image)
+        else:
+            prediction = predict_anime(input_image)
+        
+        prediction = prediction.numpy()
+        prediction = (prediction + 1 ) * 127.5
+        prediction = prediction.astype(np.uint8)
         
         output_image_data = prediction[0]
         
         # Convert prediction into image
         output_image = Image.fromarray(output_image_data)
-                 
-        # Use for debugging
-        # output_image = image.convert("RGB")
         
         # Convert output image into data URL
         buffered = BytesIO()

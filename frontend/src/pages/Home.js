@@ -11,6 +11,7 @@ const Home = () => {
 
   const STYLES = {
     0: 'Vincent Van Gogh',
+    1: 'Anime'
   }
 
   const [style, setStyle] = useState(0)
